@@ -1,0 +1,62 @@
+action sum(x, y: number): number {
+    return x + y;
+}
+
+// Cena padrão
+scene {
+    render div.container {
+        render span.title {
+            Digite os números X e Y para somar.
+        }
+        
+        show SumScene;
+    }
+}
+
+scene SumScene {
+    set result: string = "";
+
+    render input.left(type=number, placeholder="X");
+    render input.right(type=number, placeholder="Y");
+
+    render button.submit { Somar }
+
+    on click button.submit(event) {
+        if (input.left.value.length == 0 || input.right.value.length == 0) {
+            return;
+        }
+
+        result = sum(input.left.valueAsNumber, input.right.valueAsNumber);
+    }
+
+    render span.result {
+        O resultado da soma é {result}
+    } when(
+        result.length > 0
+    );
+}
+
+styles {
+    div.container {
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        height: 400px;
+        justify-content: center;
+
+        & span.title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        & input.left, & input.right {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        & button { width: 100% }
+    }
+}
